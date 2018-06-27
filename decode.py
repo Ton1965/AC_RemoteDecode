@@ -1,31 +1,32 @@
 import binascii as ba
 
-fin = open('result.txt', 'r')
+fin = open('toyotomi.hex.txt', 'r')
 commands = fin.readlines()
 
-fout = open('commands.txt', 'w')
+fout = open('toyotomi.commands.txt', 'w')
 for l in commands:
+  l = l[:len(l) - 1]
   current = 0
   buffer = ''
   while True:
-    duration = l[current : current + 2]
+    duration = int('0x' + l[current : current + 2], base = 16)
     current += 2
-    if duration == '00':
-      duration = l[current : current + 4]
+    if duration == 0:
+      duration = int('0x' + l[current : current + 4], base = 16)
       current += 4
-    if duration == '0127':
+    if duration >= 0x0120 and duration <= 0x0130:
       buffer = 'L1'
     else:
-      if duration == '94':
+      if duration >= 0x85 and duration <= 0x95:
         buffer = 'L2'
       else:
-        if duration == '0290':
+        if duration >= 0x0280 and duration <= 0x29a:
           buffer = 'L3'
         else:
-          if duration == '12':
+          if duration >= 0x0e and duration <= 0x18:
             buffer = buffer + '0'
           else:
-            if duration == '36':
+            if duration >= 0x30 and duration <= 0x3a:
               buffer = buffer + '1'
             else:
               buffer = 'U'
