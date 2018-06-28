@@ -1,7 +1,7 @@
 
 
-f = open('toyotomi.commands.txt', 'r')
-fout = open('toyotomi.commandOrder.txt', 'w')
+f = open('myCodes.commands.txt', 'r')
+fout = open('myCodes.commandOrder.txt', 'w')
 ftrash = open('trash.txt', 'w')
 
 fout.write('mode, on, fan, temp, strange\n')

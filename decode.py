@@ -1,9 +1,9 @@
 import binascii as ba
 
-fin = open('toyotomi.hex.txt', 'r')
+fin = open('myCodes.hex.txt', 'r')
 commands = fin.readlines()
 
-fout = open('toyotomi.commands.txt', 'w')
+fout = open('myCodes.commands.txt', 'w')
 for l in commands:
   l = l[:len(l) - 1]
   current = 0
@@ -17,13 +17,13 @@ for l in commands:
     if duration >= 0x0120 and duration <= 0x0130:
       buffer = 'L1'
     else:
-      if duration >= 0x85 and duration <= 0x95:
+      if duration >= 0x85 and duration <= 0x9c:
         buffer = 'L2'
       else:
         if duration >= 0x0280 and duration <= 0x29a:
           buffer = 'L3'
         else:
-          if duration >= 0x0e and duration <= 0x18:
+          if duration >= 0x0e and duration <= 0x1d:
             buffer = buffer + '0'
           else:
             if duration >= 0x30 and duration <= 0x3a:

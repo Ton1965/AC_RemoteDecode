@@ -1,10 +1,10 @@
 import io
 import binascii as ba
 
-f = open('toyotomi_akira.ini', 'r')
+f = open('myCodes.txt', 'r')
 data = f.readlines()
 
-fout = open('toyotomi.hex.txt', 'w')
+fout = open('myCodes.hex.txt', 'w')
 
 for l in data:
   offset = 0
