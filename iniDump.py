@@ -28,8 +28,8 @@ for l in data:
 
 
   offset = offset + 4 + length
-  if offset >= len(data):
-    print("Too long string!")
+  if offset != len(data):
+    print("String length mismatch!")
     continue
 
 fout.close()
