@@ -14,21 +14,16 @@ def setBytes(string, location, newBytes):
 
   return string[:location[0]] + newBytes + string[location[1]:]
 
-Leaders = {'L1' : '000127', 'L2' : '94', 'L3' : '000290', 'U' : '000d05'}
-digits = {'0' : '12', '1' : '36'}
+durations = {'B' : '00012794', 'C' : '12000290', 'D' : '12000d05', '0' : '1212', '1' : '1236'}
 
 def convert2Durations(string):
   currentByte = ''
   converted = ''
   for b in string:
-    currentByte = currentByte + b
-    if currentByte in digits:
-      converted = converted + '12' + digits[currentByte]
-    elif currentByte in Leaders:
-      converted = converted + Leaders[currentByte]
-    elif currentByte == 'L':
-      continue
-    currentByte = ''
+    if b in durations:
+      converted = converted + durations[b]
+    else:
+      print("Bad symbol %d in generated line!" % b)
     
   return converted
 
@@ -38,28 +33,31 @@ def process(command):
   #prepend command type (always 38), repeat count and data length
   length = len(hexCommand)
   header = bytes([38, 0, length % 256, length // 256])
-  hexCommand = header + hexCommand
+  length1 = ((length // 8) + 1) * 8
+  padLength = length1 - length
+  pad = bytearray(b'\0') * padLength
+  hexCommand = header + hexCommand + pad
   command = str(ba.b2a_base64(hexCommand, newline = False))
 
-  return command[1:]
+  return command[2:len(command) - 1]
 
 
-commandTemplate = 'L1L210010010010100000000011100001010010L310000000010001000000000000001111U'
+commandTemplate = 'B10010010010100000000011100001010010C10000000010001000000000000001111D'
 
 on_off = {'on' : 1, 'off' : 0}
-on_off_byte = 7
+on_off_byte = 4
 
 mode = {'heat' : 4, 'cool' : 1}
-mode_byte = [4, 7]
+mode_byte = [1, 4]
 
 fan = {'low' : 1, 'medium' : 2, 'high' : 3, 'auto' : 0}
-fan_byte = [8, 10]
+fan_byte = [5, 7]
 
 temp_low = 16
 temp_high = 30
-temp_byte = [12, 16]
+temp_byte = [9, 13]
 
-checksum_byte = [69, 73]
+checksum_byte = [65, 69]
 
 fout = open("tosot.ini", "w")
 

@@ -1,10 +1,10 @@
 import io
 import binascii as ba
 
-f = open('myCodes.txt', 'r')
+f = open('tosot.ini', 'r')
 data = f.readlines()
 
-fout = open('myCodes.hex.txt', 'w')
+fout = open('tosot.hex', 'w')
 
 for l in data:
   offset = 0
@@ -28,7 +28,7 @@ for l in data:
 
 
   offset = offset + 4 + length
-  if offset != len(data):
+  if offset > len(data):
     print("String length mismatch!")
     continue
 
